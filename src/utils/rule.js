@@ -23,6 +23,11 @@ export const normalRoutes = [
     component: () => import('@/views/document/serch/index.vue'),
   },
   {
+    path: '/customerDetail/:id',
+    name: 'customerDetail',
+    component: () => import('@/views/customer-management/component/customer-detail.vue'),
+  },
+  {
     path: '/structureCheck/:auctionId',
     name: 'structureCheck',
     component: () => import('@/views/other-detail/check/index'),
@@ -52,8 +57,8 @@ export const adminRoutes = [
     redirect: '/index',
     children: [
       {
-        path: '/index',
-        name: 'Index',
+        path: '/accountManage',
+        name: 'AccountManage',
         component: () => import('@/views/account-management/index.vue'),
       },
       {
@@ -65,6 +70,21 @@ export const adminRoutes = [
         path: '/taskAssign',
         name: 'TaskAssign',
         component: () => import('@/views/task-assign/index.vue'),
+      },
+      {
+        path: '/index',
+        name: 'Index',
+        component: () => import('@/views/work-bench/index'),
+      },
+      {
+        path: '/monitoringView',
+        name: 'monitoring-view',
+        component: () => import('@/views/monitoring-view/index'),
+      },
+      {
+        path: '/monitoringApi',
+        name: 'monitoringApi',
+        component: () => import('@/views/monitoring-api/index'),
       },
     ],
   },
@@ -93,14 +113,20 @@ export const ruleProcess = (_this) => {
 
 export const adminMenu = [
   {
+    text: '工作台',
+    icon: 'iconfont icongongzuotai',
+    path: '/index',
+    key: 'WorkBench',
+  },
+  {
     text: '账号管理',
     icon: 'iconfont iconyonghuyunying-zhanghaoguanli',
-    path: '/index',
+    path: '/accountManage',
     key: 'Instructions',
     child: [
       {
         text: '运营账号',
-        path: '/index',
+        path: '/accountManage',
         key: 'Instructions',
       },
     ],
@@ -113,9 +139,21 @@ export const adminMenu = [
   },
   {
     text: '顶级机构分配',
-    icon: 'iconfont iconguquanchuantoutu',
+    icon: 'iconfont icondingjijigoufenpei',
     path: '/taskAssign',
     key: 'TaskAssign',
+  },
+  {
+    text: '监控视图概览',
+    icon: 'iconfont iconjiankongshitugailan',
+    path: '/monitoringView',
+    key: 'MonitoringView',
+  },
+  {
+    text: 'API监控管理',
+    icon: 'iconfont iconAPIjiankongguanli',
+    path: '/monitoringApi',
+    key: 'MonitoringApi',
   },
 ];
 

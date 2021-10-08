@@ -3,14 +3,14 @@ import './style.scss';
 
 const RemarkInfo = (props, tabType) => {
   const {
-    recallRemark, approveTime, reason, createTime, remark, status,
+    recallRemark, approveTime, reason, createTime, remark, status, auditType,
   } = props;
   const dynamicReason = JSON.parse(reason) || [];
   const { hl = [] } = dynamicReason[0] || {};
   const isShenHe = ['2', '3', '4'].includes(tabType);
   const obj = isShenHe ? {
     approveTime,
-    label: '审核备注',
+    label: `${auditType ? '人工' : '自动'}审核`,
     detail: remark,
     display: true,
   } : {

@@ -34,10 +34,10 @@ const mainModule = () => {
   const getParams = () => {
     const f = (i) => dateUtils.formatStandardDate(i);
     const {
-      createTimeStart, createTimeEnd, approveTimeStart, approveTimeEnd, start, updateTimeEnd, updateTimeStart, ...rest
+      createTimeStart, createTimeEnd, approveTimeStart, approveTimeEnd, startStart, startEnd, updateTimeEnd, updateTimeStart, ...rest
     } = state.queryOptions;
     const obj = {
-      createTimeStart, createTimeEnd, approveTimeStart, approveTimeEnd, updateTimeEnd, updateTimeStart, startStart: (start || [])[0], startEnd: (start || [])[1],
+      createTimeStart, createTimeEnd, approveTimeStart, approveTimeEnd, updateTimeEnd, updateTimeStart, startStart, startEnd,
     };
     const { tableType, sortColumn, sortOrder } = queryState;
     Object.keys(obj).forEach((i) => obj[i] = f(obj[i]));

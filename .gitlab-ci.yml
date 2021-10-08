@@ -13,7 +13,7 @@ cache:
 install_deps:
   stage: install_deps
   tags:
-    - font-group-runner
+    - font-group-runner-8
   only:
     - develop
     - release-sit
@@ -28,7 +28,7 @@ install_deps:
 build_step:
   stage: build
   tags:
-    - font-group-runner
+    - font-group-runner-8
   only:
     - develop
     - release-sit
@@ -40,7 +40,7 @@ build_step:
 deploy_step:
   stage: deploy
   tags:
-    - font-group-runner
+    - font-group-runner-8
   only:
     - develop
   script:
@@ -57,7 +57,7 @@ deploy_step:
 deploy_step-sit:
   stage: deploy
   tags:
-    - font-group-runner
+    - font-group-runner-8
   only:
     - release-sit
   script:
@@ -74,7 +74,7 @@ deploy_step-sit:
 deploy_step-uat:
   stage: deploy
   tags:
-    - font-group-runner
+    - font-group-runner-8
   only:
     - release-uat
   script:

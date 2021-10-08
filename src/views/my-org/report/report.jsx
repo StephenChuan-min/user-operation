@@ -3,129 +3,8 @@ import {
 } from 'vue';
 import MyOrgApi from '@/server/api/my-org';
 import { dateUtils, fileDownload } from '@/utils';
+import main from './main';
 import './style.scss';
-
-const shortcuts = [{
-  text: '最近一天',
-  value: (() => {
-    const end = new Date();
-    const start = new Date();
-    start.setTime(start.getTime() - 3600 * 1000 * 24);
-    return [start, end];
-  })(),
-}, {
-  text: '最近一周',
-  value: (() => {
-    const end = new Date();
-    const start = new Date();
-    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-    return [start, end];
-  })(),
-}, {
-  text: '最近一个月',
-  value: (() => {
-    const end = new Date();
-    const start = new Date();
-    start.setMonth(start.getMonth() - 1);
-    return [start, end];
-  })(),
-}];
-const reportFormOptions = {
-  itemsChecked: [
-    {
-      title: '资产挖掘',
-      key: 'zcwj',
-      children: [
-        {
-          label: '资产拍卖',
-          val: '1',
-        },
-        {
-          label: '土地信息',
-          val: '2',
-        },
-        {
-          label: '无形资产',
-          val: '3',
-        },
-        {
-          label: '代位权',
-          val: '4',
-        },
-        {
-          label: '股权质押',
-          val: '5',
-        },
-        {
-          label: '动产抵押',
-          val: '6',
-        },
-        {
-          label: '查解封资产',
-          val: '7',
-        },
-        {
-          label: '在建工程',
-          val: '8',
-        },
-        {
-          label: '不动产登记',
-          val: '9',
-        },
-        {
-          label: '车辆信息',
-          val: '10',
-        },
-        {
-          label: '金融资产',
-          val: '11',
-        },
-        {
-          label: '招投标',
-          val: '12',
-        },
-        {
-          label: '电子报',
-          val: '18',
-        },
-      ],
-    },
-    {
-      title: '风险参考',
-      key: 'fxck',
-      children: [
-        {
-          label: '破案重组',
-          val: '13',
-        },
-        {
-          label: '被执行信息',
-          val: '19',
-        },
-        {
-          label: '终本案件',
-          val: '20',
-        },
-        {
-          label: '失信记录',
-          val: '14',
-        },
-        {
-          label: '限制高消费',
-          val: '15',
-        },
-        {
-          label: '涉诉信息',
-          val: '16',
-        },
-        {
-          label: '经营风险',
-          val: '17',
-        },
-      ],
-    },
-  ],
-};
 
 export default defineComponent({
   data() {
@@ -140,13 +19,13 @@ export default defineComponent({
     const checkList = reactive({
       zcwj: {
         checkAll: true,
-        checkedData: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '18'],
+        checkedData: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '12'],
         isIndeterminate: false,
         options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '18'],
       },
       fxck: {
         checkAll: true,
-        checkedData: ['13', '14', '15', '16', '17', '19', '20'],
+        checkedData: ['13', '14', '15', '19', '20'],
         isIndeterminate: false,
         options: ['13', '14', '15', '16', '17', '19', '20'],
       },
@@ -250,6 +129,7 @@ export default defineComponent({
       handleCheckAllChange,
       handleCheckedItemChange,
     } = this;
+    const { shortcuts, reportFormOptions } = main();
     const { title, reportVisible = false } = report;
     return (
       <el-dialog
@@ -291,7 +171,6 @@ export default defineComponent({
                 >
                   <el-checkbox
                     class="zcjk-rules-box-item-moduleType"
-                    disabled
                     indeterminate={checkList[item.key].isIndeterminate}
                     v-model={checkList[item.key].checkAll}
                     onChange={(val) => handleCheckAllChange(val, item.key)}
@@ -306,7 +185,6 @@ export default defineComponent({
                       item.children.map((child) => (
                         <el-checkbox
                           label={child.val}
-                          disabled
                           key={child.val}
                           >{ child.label }
                         </el-checkbox>

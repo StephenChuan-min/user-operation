@@ -74,6 +74,10 @@ const AdminApi = {
 
   // 域名机构列表
   orgListDomain: () => axios.get('/api/admin/organization/listDomain'),
+  // 置顶
+  setToTop: (id) => axios.get(`/api/admin/organization/order?id=${id}`),
+  // 取消置顶
+  resetToTop: (id) => axios.get(`/api/admin/organization/cancelOrder?id=${id}`),
 
   // 操作日志
   orgListOrgLog: (params) => axios.post('/api/admin/organization/listOrgLog', clearEmpty(params)),

@@ -1,0 +1,201 @@
+.monitor-api-content {
+  margin: 20px;
+  padding: 0 20px;
+  min-height: 89vh;
+  background: #ffffff;
+  &-header {
+    height: 97px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-title {
+      color: #20242E;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  &-body {
+    .action-span {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .permission-form {
+    padding-right: 32px;
+    overflow-y: auto;
+    max-height: 650px;
+    .el-form-item {
+      margin-bottom: 20px;
+      .el-form-item__label {
+        line-height: 32px;
+      }
+      .el-form-item__content {
+        line-height: 32px;
+      }
+      .item-in-form {
+        margin-bottom: 0 !important;
+        .el-form-item__label {
+          font-weight: unset !important;
+        }
+      }
+    }
+    .form-text {
+      .el-form-item__label {
+        line-height: 14px;
+      }
+      .el-form-item__content {
+        line-height: 14px;
+      }
+    }
+    .el-form-item:last-child {
+      .el-form-item__label {
+        font-weight: bold;
+      }
+    }
+    .el-textarea {
+      textarea {
+        min-height: 100px !important;
+        font-family: inherit;
+      }
+    }
+    .form-date {
+      label:first-child {
+        position: relative;
+        &:before {
+          content: '*';
+          color: #f93535;
+          position: absolute;
+          top: 0;
+          left: 57px;
+        }
+      }
+      .update-time {
+        display: flex;
+        .el-form-item {
+          margin-bottom: 0;
+        }
+      }
+    }
+    .form-remark {
+      label:first-child {
+        position: relative;
+        &:before {
+          content: '*';
+          color: #f93535;
+          position: absolute;
+          top: 0;
+          left: 113px;
+        }
+      }
+    }
+    .remark-items {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      .item {
+        padding: 5px 20px;
+        color: #20242E;
+        font-size: 12px;
+        line-height: 12px;
+        border-radius: 15px;
+        margin-right: 12px;
+        cursor: pointer;
+        border: 1px solid #C5C7CE;
+        &:hover {
+          color: #296DD3;
+          border-color: #296DD3;
+        }
+      }
+    }
+    .form-records {
+      margin-top: 4px;
+      .el-form-item__label {
+        line-height: 14px;
+      }
+    }
+    .record-area {
+      width: 402px;
+      .el-timeline-item__timestamp.is-top {
+        margin-bottom: 0;
+        padding-top: 0;
+      }
+      .el-timeline-item__tail {
+        border: 1px solid #E2E4E9;
+        left: 2px;
+      }
+      .el-timeline-item__node {
+        background: #2F7EEC;
+        border: 3px solid #D8E8FF;
+      }
+      .el-timeline-item__wrapper {
+        padding-left: 20px;
+      }
+      .el-timeline-item__node--normal {
+        left: -3px;
+        width: 6px;
+        height: 6px;
+      }
+      &-time {
+        font-size: 14px;
+        line-height: 14px;
+        padding-top: 4px;
+        color: #20242E;
+      }
+      &-cont {
+        position: relative;
+        font-size: 12px;
+        line-height: 12px;
+        background: #EDF0F9;
+        color: #4E5566;
+        padding: 12px;
+        margin-top: 12px;
+        margin-bottom: 16px;
+        &:before {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          top: -12px;
+          left: 21px;
+          border: 6px solid #edf0f9;
+          border-color: transparent transparent #edf0f9 transparent;
+        }
+      }
+    }
+    //滚动条的宽度
+    &::-webkit-scrollbar {
+      width:4px;
+    }
+
+    //外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果
+    &::-webkit-scrollbar-track {
+      width: 4px;
+      background-color:#FFF;
+    }
+
+    //滚动条的设置
+    &::-webkit-scrollbar-thumb {
+      background-color:#B2B8C9;
+      background-clip:padding-box;
+      min-height:49px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius:5px;
+    }
+    //滚动条移上去的背景
+
+    &::-webkit-scrollbar-thumb:hover{
+      background-color:#B2B8C9;
+    }
+    &::-webkit-scrollbar-track:hover{
+      background-color:#E2E4E9;
+    }
+  }
+}
+.monitor-api-dialog {
+  .el-dialog__body {
+    padding-top: 24px !important;
+  }
+}

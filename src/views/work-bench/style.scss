@@ -1,0 +1,147 @@
+.workbench-wrapper *{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.workbench-wrapper{
+  padding: 20px;
+  background-color: #EEF1F7;
+  img{
+    width: 41px;
+  }
+  .workbench-top-content{
+    display: flex;
+    &-item{
+      width: calc((100% - 80px) / 5);
+      padding: 20px;
+      border-radius: 4px;
+      background-color: #fff;
+      margin-right: 20px;
+      .item-up{
+        display: flex;
+        height: 40px;
+        .left-block{
+          margin-right: 12px;
+        }
+        .right-block{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          .title {
+            color: #20242E;
+            font-weight: bold;
+          }
+          .describe{
+            font-size: 12px;
+            padding-top: 4px;
+          }
+          .describe .label{
+            color: #7D8699;
+          }
+          .describe .num{
+            color: #20242E;
+          }
+        }
+      }
+      .item-down{
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &-child{
+          width: 137px;
+          text-align: center;
+          .num{
+            height: 24px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #20242E;
+            line-height: 24px;
+            margin-top: 20px;
+            position: relative;
+          }
+        }
+        .subtitle{
+          font-size: 14px;
+          color: #7D8699;
+          line-height: 14px;
+        }
+        .vertical-line{
+          width: 1px;
+          height: 40px;
+          background-color: #E2E4E9;
+        }
+      }
+    }
+  }
+  .workbench-container{
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 20px;
+    min-height: 658px;
+    &-head{
+      border-bottom: 1px solid #E2E4E9;
+      display: flex;
+      .content-title{
+        font-weight: bold;
+        color: #20242E;
+        height: 20px;
+        line-height: 20px;
+        padding-left: 8px;
+        margin-bottom: 11px;
+        margin-right: 80px;
+        border-left: 3px solid #296DD3;
+      }
+      .el-tabs,.el-tabs *{
+        padding: 0;
+        margin: 0;
+      }
+      .is-top{
+        background-color: #fff;
+      }
+      .el-tabs__active-bar{
+        display: none;
+      }
+      .el-tabs__item{
+        height: 30px !important;
+        line-height: 16px !important;
+        padding: 0 12px 12px !important;
+        &~.el-tabs__item{
+          margin-left: 16px;
+        }
+        &.is-active{
+          border-bottom: 2px solid #296DD3;
+        }
+      }
+    }
+    &-operate{
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      .el-input{
+        width: 380px;
+      }
+    }
+    &-table{
+      margin-top: 16px;
+    }
+    .el-pagination{
+      margin-top: 30px;
+    }
+  }
+}
+.export-dialog{
+  width: 500px!important;
+  height: 234px;
+  margin: 0 auto;
+  .el-dialog__body{
+    padding: 32px 0 40px 50px!important;
+    .el-date-editor--month{
+      width: 220px;
+    }
+  }
+  .el-form-item__error{
+    left: 0!important;
+  }
+}

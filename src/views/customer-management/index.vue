@@ -17,6 +17,7 @@
           :activeKey="activeKey"
           :heightStyle="heightStyle"
           @handleClick="customerTreeClick"
+          @toTopAction="toTopAction"
         ></CustomerTree>
       </div>
       <div class="main-content-right">
@@ -243,14 +244,28 @@ export default {
         });
     },
     // 获取左侧树 数据
-    getCuntomerTreeData() {
+    getCuntomerTreeData(flag = '') {
       AdminApi.orgListDomain().then((res) => {
         const { code, data } = res.data || {};
         if (code === 200) {
           const { list, totalOrgNum, totalOperatedOrgNum } = data;
-          this.activities = list;
+          this.activities = list.map((i) => ({ ...i, showPopover: false }));
           this.totalOrgNum = totalOrgNum;
           this.totalOperatedOrgNum = totalOperatedOrgNum;
+          if (flag === 'resetIndex') this.$refs.CustomerTree.resetIndex();
+        }
+      });
+    },
+    // 置顶操作 id机构id  flag置顶、取消置顶
+    toTopAction(id, flag) {
+      const api = flag ? () => AdminApi.resetToTop(id) : () => AdminApi.setToTop(id);
+      api().then((res) => {
+        const { code, message } = res.data || {};
+        if (code === 200) {
+          // 刷新左侧树
+          this.getCuntomerTreeData('resetIndex');
+        } else {
+          this.$message.error(message);
         }
       });
     },

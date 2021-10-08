@@ -13,13 +13,12 @@ import empty from '@/assets/img/no_data.png';
 import './style.scss';
 
 const width = ['20%', '35%', '35%', '10%'];
-const column = auditColumn.filter((item, index) => index !== 1).map((item, index) => Object.assign(item, { width: width[index] }));
+const column = auditColumn.map((item, index) => Object.assign(item, { width: width[index] }));
 const processList = [...PROCESS];
 processList.splice(2, 0, {
   label: '未跟进',
   value: 1,
 });
-console.log(processList, 'ni');
 export default defineComponent({
   components: {
     ZcInfo,

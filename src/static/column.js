@@ -250,16 +250,10 @@ const auditColumn = [
     width: '22%',
   },
   {
-    prop: 'conSumerName',
-    label: '客户使用机构',
-    sort: false,
-    width: '13.3%',
-  },
-  {
     prop: 'remarkInfo',
     label: '匹配备注信息',
     sort: false,
-    width: '18%',
+    width: '31.3%',
   },
   {
     prop: 'auctionInfo',
@@ -274,6 +268,54 @@ const auditColumn = [
     width: '6%',
   },
 ];
+
+// api监控列表
+const monitorApiColumn = [
+  {
+    prop: 'id',
+    label: 'ID',
+    sort: false,
+    width: 80,
+  },
+  {
+    prop: 'orgName',
+    label: '合作机构名称',
+    sort: false,
+  },
+  {
+    prop: 'domain',
+    label: '域名名称',
+    sort: false,
+  },
+  {
+    prop: 'debtors',
+    label: '总债务人数',
+    sort: false,
+    align: 'center',
+  },
+  {
+    prop: 'useTimes',
+    label: '已使用查询次数',
+    sort: false,
+    align: 'center',
+  },
+  {
+    prop: 'totalTimes',
+    label: '全部查询次数',
+    sort: false,
+    align: 'center',
+  },
+  {
+    prop: 'startDate',
+    label: '合同开始日期',
+    sort: 'START',
+  },
+  {
+    prop: 'endDate',
+    label: '合同结束日期',
+    sort: 'EXPIRE',
+  },
+];
 export {
-  accountManagementColumn, taskAssignColumn, customerColumn, operationColumn, roleInfoColumn, myOrgColumn, auditColumn,
+  accountManagementColumn, taskAssignColumn, customerColumn, operationColumn, roleInfoColumn, myOrgColumn, auditColumn, monitorApiColumn,
 };

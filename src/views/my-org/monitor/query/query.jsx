@@ -1,10 +1,9 @@
 import {
-  defineComponent, reactive, ref, getCurrentInstance, watch, toRaw, nextTick,
+  defineComponent, reactive, ref, getCurrentInstance,
 } from 'vue';
-import { dateUtils, dateRange } from '@/utils';
+import { dateUtils } from '@/utils';
 import { IMPORTANT_TYPE, AUCTION_STATUS, PROCESS } from '@/static';
 import DateTime from './yc-date-picker/yc-date-picker';
-// <DateTime v-model={state.DateTimeTest} />
 import './style.scss';
 
 export default defineComponent({
@@ -25,29 +24,11 @@ export default defineComponent({
       approveTimeEnd: '', // 审核结束时间 ,示例值(2021-01-01)
       createTimeStart: '', // 匹配开始时间 ,示例值(2021-01-01)
       createTimeEnd: '', // 匹配结束时间 ,示例值(2021-01-01)
-
-      start: '',
       startStart: '', // 开拍开始时间 ,示例值(2021-01-01)
       startEnd: '', // 开拍结束时间 ,示例值(2021-01-01)
       updateTimeStart: '', // 更新开始时间 ,示例值(2021-01-01)
       updateTimeEnd: '', // 更新结束时间 ,示例值(2021-01-01)
       process: '', // 状态 0 未读 3 确认中（资产监控为跟进中） 6 跟进中 9 已完成 12 已忽略 15 已放弃
-    });
-    // 监听开拍时间，选择日期范围后,结束日期置空
-    watch(() => state.start, (newVal) => {
-      const arr = toRaw(newVal) || [];
-      const startDate = arr[0];
-      const endDate = arr[1];
-      const fn = (i) => dateUtils.formatStandardDate(i);
-      const dom = document.getElementsByClassName('el-picker-panel__shortcut');
-      if (new Date(endDate).getTime() === 0) {
-        state.start = [startDate];
-        dateRange().forEach((i, index) => {
-          if (fn(i.value[0]) === fn(startDate)) {
-            nextTick(() => dom[index].style.color = '#296DD3').then((r) => console.log(r));
-          }
-        });
-      }
     });
     // 日期控件做前后限制
     const disabledStartDate = (startTime, prop) => {
@@ -86,7 +67,30 @@ export default defineComponent({
     const deleteStatus = (val) => {
       isDelete.value = val;
     };
-
+    const shortcuts = reactive({
+      shortcuts: [{
+        text: '近一个月及以后',
+        value: (() => {
+          const start = new Date();
+          start.setMonth(start.getMonth() - 1);
+          return start;
+        })(),
+      }, {
+        text: '近三个月及以后',
+        value: (() => {
+          const start = new Date();
+          start.setMonth(start.getMonth() - 3);
+          return start;
+        })(),
+      }, {
+        text: '近半年及以后',
+        value: (() => {
+          const start = new Date();
+          start.setMonth(start.getMonth() - 6);
+          return start;
+        })(),
+      }],
+    });
     return {
       state,
       disabledStartDate,
@@ -97,11 +101,12 @@ export default defineComponent({
       open,
       deleteStatus,
       isDelete,
+      shortcuts,
     };
   },
   render() {
     const {
-      state, disabledStartDate, disabledEndDate, handleSearch, resetSearch, openStatus, open, isDelete,
+      state, disabledStartDate, disabledEndDate, handleSearch, resetSearch, openStatus, open, isDelete, shortcuts,
     } = this;
     const processList = [...PROCESS];
     processList.splice(2, 0, {
@@ -235,20 +240,29 @@ export default defineComponent({
               </div>
             </el-form-item>
             <el-form-item label="开拍时间：" prop="start">
-              { /* <DateTime v-model={state.start} key={state.start}/> */ }
-              <el-date-picker
-                v-model={state.start}
-                type="daterange"
-                unlink-panels
-                class="query-date"
-                style={{ width: '286px' }}
-                range-separator="至"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                shortcuts={dateRange()}
-                popper-class="date-picker-kp"
-                key={state.start}
-              />
+              <div className="form-item-time">
+                <el-form-item prop="startStart">
+                  <el-date-picker
+                    type="date"
+                    placeholder="开始时间"
+                    popper-class="date-picker-kp"
+                    v-model={state.startStart}
+                    style="width: 130px"
+                    disabledDate={(val) => disabledStartDate(val, 'startEnd')}
+                    shortcuts={shortcuts.shortcuts}
+                  />
+                </el-form-item>
+                <span className="line" style={{ margin: '0 6px' }}>至</span>
+                <el-form-item prop="startEnd">
+                  <el-date-picker
+                    type="date"
+                    placeholder="结束时间"
+                    v-model={state.startEnd}
+                    style="width: 130px"
+                    disabledDate={(val) => disabledEndDate(val, 'startStart')}
+                  />
+                </el-form-item>
+              </div>
             </el-form-item>
           </div>
           <div className="monitor-form-line">

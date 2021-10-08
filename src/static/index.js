@@ -234,7 +234,20 @@ const DOCUMENT_DETAIL = [
     key: 'trialDate',
   },
 ];
-
+const AUDITTYPE = [
+  {
+    label: '全部',
+    value: '',
+  },
+  {
+    label: '自动审核',
+    value: 0,
+  },
+  {
+    label: '人工审核',
+    value: 1,
+  },
+];
 // 匹配类型
 const IMPORTANT_TYPE = [
   {
@@ -323,8 +336,8 @@ const ASSETS_INFO = [
     key: 'address',
   },
   {
-    lable: '负责人/机构',
-    key: 'orgName',
+    lable: '客户使用机构',
+    key: 'conSumerName',
   },
   {
     lable: '更新时间',
@@ -467,4 +480,5 @@ export {
   LABEL_TYPE,
   GENDER_TYPE,
   MATCH_TYPE,
+  AUDITTYPE,
 };

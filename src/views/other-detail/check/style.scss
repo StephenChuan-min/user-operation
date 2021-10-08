@@ -49,9 +49,13 @@
       flex-wrap: wrap;
       position: relative;
       .action-button{
+        &:first-child {
+          right: 108px;
+          padding: 0 17px;
+        }
         position: absolute;
         right: 0;
-        padding: 0 17px;
+        padding: 0 12px;
         min-width: 72px;
       }
     }

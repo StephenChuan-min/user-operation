@@ -3,8 +3,8 @@
     <div class="my-org-header">
       <div class="tabs-button">
         <el-radio-group v-model="tabKey" @change="showTab">
-          <el-radio-button :label="1">正式机构</el-radio-button>
-          <el-radio-button :label="0">试用机构</el-radio-button>
+          <el-radio-button :label="1" key="1">正式机构</el-radio-button>
+          <el-radio-button :label="0" key="2">试用机构</el-radio-button>
         </el-radio-group>
       </div>
       <OrgMessage :data="orgMessage" :type="tabKey"></OrgMessage>
@@ -147,12 +147,20 @@
             :label="item.label"
             :sortable="item.sort"
             :min-width="item.width"
-            :key="item.class"
+            :key="item.prop"
             :align="item.align"
             :class-name="item.class"
           />
           <el-table-column label="操作" min-width="15%">
             <template #default="scope">
+              <el-button
+                type="text"
+                @click="handleOpen(scope.row, 'detail')"
+                class="button-link"
+              >
+                详情
+              </el-button>
+              <el-divider direction="vertical"></el-divider>
               <el-button
                 type="text"
                 @click="handleOpen(scope.row)"
@@ -161,13 +169,18 @@
                 监控管理
               </el-button>
               <el-divider direction="vertical"></el-divider>
-              <el-button
-                type="text"
-                @click="handleOpenModal(scope.row)"
-                class="button-link"
-              >
-                客户报告
-              </el-button>
+              <el-dropdown trigger="click">
+                <a class="table-action-more">
+                  更多
+                </a>
+<!--                <template #dropdown>-->
+<!--                  <el-dropdown-menu>-->
+<!--                    <el-dropdown-item @click="handleOpenModal('report', scope.row)">客户报告导出</el-dropdown-item>-->
+<!--                    <el-dropdown-item @click="handleOpenModal('data', scope.row)">综合数据导出</el-dropdown-item>-->
+<!--                    <el-dropdown-item @click="handleOpenModal('record', scope.row)">账号使用情况导出</el-dropdown-item>-->
+<!--                  </el-dropdown-menu>-->
+<!--                </template>-->
+              </el-dropdown>
             </template>
           </el-table-column>
         </el-table>
@@ -185,6 +198,7 @@
       </div>
     </div>
     <Report ref="Report"></Report>
+    <DataModal ref="DataModal"/>
   </div>
 </template>
 
@@ -198,6 +212,7 @@ import { toRaw } from 'vue';
 import $modalConfirm from '@/utils/better-el';
 // import Query from './query/query';
 import Report from '@/views/my-org/report/report';
+import DataModal from '@/views/my-org/report/synthesize-data-modal';
 import OrgMessage from './header/org-message';
 
 export default {
@@ -206,6 +221,7 @@ export default {
   components: {
     OrgMessage,
     Report,
+    DataModal,
   },
   data() {
     return {
@@ -401,19 +417,28 @@ export default {
         console.log(err);
       });
     },
-    handleOpen(row) {
+    handleOpen(row, flag = '') {
       this.isChecked = false;
       const { id, name } = row;
-      const routerData = this.$router.resolve({
-        path: '/monitorManage',
-        query: { id, name },
-      });
-      window.open(routerData.href, '_blank');
+      if (flag !== 'detail') {
+        const routerData = this.$router.resolve({
+          path: '/monitorManage',
+          query: { id, name },
+        });
+        window.open(routerData.href, '_blank');
+      } else {
+        window.open(`/customerDetail/${id}`, '_blank');
+      }
     },
-    handleOpenModal(row) {
+    handleOpenModal(flag, row) {
       this.isChecked = false;
-      const { open } = this.$refs.Report;
-      open(row);
+      if (flag === 'report') {
+        const { open } = this.$refs.Report;
+        open(row);
+      } else {
+        const { handleOpen } = this.$refs.DataModal;
+        handleOpen(flag, row);
+      }
     },
   },
   watch: {
@@ -478,6 +503,14 @@ export default {
           }
           .obligor-num {
             padding-right: 18px;
+          }
+        }
+        .table-action-more {
+          color: #296DD3;
+          cursor: pointer;
+          &:hover {
+            color: #2E7BED !important;
+            text-decoration: underline;
           }
         }
       }

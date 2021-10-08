@@ -1,0 +1,34 @@
+.inrow>li,.inrow span{
+  display: inline-block;
+  letter-spacing: normal;
+  word-spacing: normal;
+}
+[class^=number-scroll-]{
+  position: absolute;
+  top: 0;
+  display: block;
+  width:auto;
+  height:24px;
+  .dataOne{
+    width:15px;
+    height:24px;
+  }
+  .dataBoc{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .dataBoc .tt{
+    position: absolute;
+    top: 0;  left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .tt span{
+    width:100%;
+    height:100%;
+    color:#20242E;
+    font-weight:bold;
+  }
+}

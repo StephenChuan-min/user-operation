@@ -21,11 +21,12 @@
     </div>
     <div class="customer-tree-content">
       <div
-        v-for="(item, index) in activities"
+        v-for="(item, index) in showList"
         :key="item.id"
         class="customer-tree-content-item"
+        @click.right="() => showPopover(index)"
       >
-        <span :class="{ active: isActive === index }" class="itemText" @click="handleSelect('item', index, item)">
+        <span :class="{ active: isActive === index, isTop: item.sortOrder >= 1 }" class="itemText" @click="handleSelect('item', index, item)">
           <div class="itemText-ellipsis">
             <el-tooltip
               effect="dark"
@@ -37,8 +38,22 @@
             </el-tooltip>
             <span v-else>{{item.name}}</span>
           </div>
-          {{setText(item)}}</span
-        >
+          {{setText(item)}}
+          <el-popover
+            placement="right"
+            trigger="click"
+            popper-class="tree-popover"
+            :visible="item.showPopover"
+          >
+            <template #reference>
+              <span style="width: 1px;height: 32px;"></span>
+            </template>
+            <div class="popover-area" @click="handleActionToTop(item, item.sortOrder >= 1)">
+              <i :class="`iconfont ${item.sortOrder >= 1 ? 'iconquxiaozhiding' : 'iconzhiding'} zhiding`"></i>
+              {{item.sortOrder >= 1 ? '取消置顶' : '机构置顶'}}
+            </div>
+          </el-popover>
+        </span>
         <!-- 横线 -->
         <div
           class="itemS"
@@ -54,6 +69,7 @@
   </div>
 </template>
 <script>
+
 export default {
   name: 'CustomerTree',
   props: {
@@ -107,9 +123,34 @@ export default {
     return {
       selectAll: true,
       isActive: -1,
+      show1: false,
     };
   },
+  computed: {
+    showList() {
+      return this.activities;
+    },
+  },
+  mounted() {
+    // 取消树区域的默认浏览器右键事件
+    document.getElementById('customerTree').oncontextmenu = function () {
+      return false;
+    };
+    // 处理 点击树以外的地方就将置顶弹窗收起
+    document.addEventListener('click', (e) => this.handleClosePopover(e));
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', (e) => this.handleClosePopover(e));
+  },
   methods: {
+    handleClosePopover(e) {
+      const dom = document.getElementById('customerTree');
+      if (dom) {
+        if (!dom.contains(e.target)) {
+          this.closePopover();
+        }
+      }
+    },
     // 设置文字+数字
     setText(item) {
       return `(${item.operatedOrgNum}/${item.orgNum})`;
@@ -120,8 +161,18 @@ export default {
       const dom = document.getElementById('customerTree');
       dom.scrollTop = 0;
     },
+    resetIndex() {
+      this.$nextTick(() => {
+        this.activities.forEach((item, index) => {
+          if (item.id === Number(this.activeKey)) {
+            this.isActive = index;
+          }
+        });
+      });
+    },
     // 点击选中某一项
     handleSelect(val, index, item) {
+      this.closePopover();
       if (val === 'all') {
         this.selectAll = true;
         this.isActive = -1;
@@ -133,6 +184,23 @@ export default {
         this.isActive = index;
         this.$emit('handleClick', '', item);
       }
+    },
+    // 关闭置顶浮窗
+    closePopover() {
+      this.showList.forEach((item, index) => {
+        if (item.showPopover) this.showList[index].showPopover = false;
+      });
+    },
+    // 显示置顶浮窗
+    showPopover(index) {
+      this.closePopover();
+      this.showList[index].showPopover = true;
+    },
+    // 点击操作调接口
+    handleActionToTop(item, flag) {
+      this.closePopover();
+      const { id } = item;
+      this.$emit('toTopAction', id, flag);
     },
   },
 };
@@ -175,6 +243,11 @@ export default {
           overflow: hidden;
           white-space: nowrap;
           vertical-align: top;
+          position: relative;
+          .item-rightClick {
+            height: 34px;
+            width: 100px;
+          }
         }
       }
       .itemText:hover {
@@ -183,6 +256,9 @@ export default {
       .active {
         color: #296dd3;
         font-weight: bold;
+      }
+      .isTop {
+        background-color: #EEF1F7;
       }
       .itemS {
         position: absolute;
@@ -236,5 +312,16 @@ export default {
 }
 .customer-tree::-webkit-scrollbar-track:hover{
   background-color:#fff;
+}
+.popover-area {
+  text-align: center;
+  cursor: pointer;
+  line-height: 14px;
+  &:hover {
+    color: #296DD3;
+  }
+  .zhiding {
+    font-size: 14px;
+  }
 }
 </style>

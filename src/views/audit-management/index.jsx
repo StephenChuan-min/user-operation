@@ -158,7 +158,7 @@ export default defineComponent({
             </div>
             <div className="content-right" id='content-right' ref='RightRef'>
               {/* 列表搜索条件 */}
-              <Query ref="queryRef" onHandleSearch={handleSearch} onHandleClearQuery = {handleSearch}/>
+              <Query ref="queryRef" tableType={queryState.tableType} onHandleSearch={handleSearch} onHandleClearQuery = {handleSearch}/>
               {/* 列表 */}
               <div className="content-right-table">
                   <div className="content-right-table-tabs">

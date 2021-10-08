@@ -69,20 +69,15 @@ export default defineComponent({
       } else {
         param = { ...queryParams };
       }
-      let params = Object.assign(param, { orgId: idData.activeId, type: tabKey.value }, { page: tableData.page, num: tableData.num });
+      const params = Object.assign(param, { orgId: idData.activeId, type: tabKey.value }, { page: tableData.page, num: tableData.num });
       if (params.approveTimeEnd) params.approveTimeEnd = dateUtils.formatStandardDate(params.approveTimeEnd);
       if (params.approveTimeStart) params.approveTimeStart = dateUtils.formatStandardDate(params.approveTimeStart);
       if (params.createTimeStart) params.createTimeStart = dateUtils.formatStandardDate(params.createTimeStart);
       if (params.createTimeEnd) params.createTimeEnd = dateUtils.formatStandardDate(params.createTimeEnd);
       if (params.updateTimeStart) params.updateTimeStart = dateUtils.formatStandardDate(params.updateTimeStart);
       if (params.updateTimeEnd) params.updateTimeEnd = dateUtils.formatStandardDate(params.updateTimeEnd);
-      if (params.start) {
-        const time = {
-          startStart: dateUtils.formatStandardDate(params.start[0]),
-          startEnd: dateUtils.formatStandardDate(params.start[1]),
-        };
-        params = Object.assign(params, time);
-      }
+      if (params.startStart) params.startStart = dateUtils.formatStandardDate(params.startStart);
+      if (params.startEnd) params.startEnd = dateUtils.formatStandardDate(params.startEnd);
       return { ...params };
     };
 

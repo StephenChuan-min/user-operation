@@ -32,13 +32,13 @@ const queryApi = (searchParams) => {
 
 const dateUtils = {
   // 时间戳转换为标准日期
-  formatStandardDate(timeStamp) {
+  formatStandardDate(timeStamp, format = 'YYYY-MM-DD') {
     return timeStamp === ''
       || timeStamp === '--'
       || timeStamp === undefined
       || timeStamp === null
       ? timeStamp
-      : moment(timeStamp).format('YYYY-MM-DD');
+      : moment(timeStamp).format(format);
   },
 };
 
@@ -56,9 +56,15 @@ const fileDownload = (res, isReport = false) => {
     fileName = decodeURIComponent(name);
   } else {
     // 从返回数据中获取文件名称
-    const name = res.headers['content-disposition'].split('"')[1];
-    // 由于中文出现乱码 需要转码
-    fileName = decodeURIComponent(name).replace(/(.xlsx)/g, '');
+    const str = res.headers['content-disposition'];
+    const name = str.split('"')[1];
+    if (name) {
+      // 由于中文出现乱码 需要转码
+      fileName = decodeURIComponent(name).replace(/(.xlsx)/g, '');
+    } else {
+      const [, a] = str.split('=');
+      fileName = a;
+    }
   }
   // 创建a标签
   const elink = document.createElement('a');
@@ -154,7 +160,7 @@ const dateRange = () => [{
 const replaceEmpty = (arr = []) => {
   const fn = (obj = {}) => {
     const newObj = {};
-    Object.keys(obj).forEach((i) => newObj[i] = obj[i] ? obj[i] : '-');
+    Object.keys(obj).forEach((i) => newObj[i] = (obj[i] || obj[i] === 0) ? obj[i] : '-');
     return newObj;
   };
   return arr.map((i) => fn(i));
@@ -174,7 +180,7 @@ const handleObligors = (arr = []) => {
  * @param arr
  * @returns {{[p: string]: *}[]}
  */
-const handlePermissions = (arr = []) => arr.map((i) => ({ ...i, isSelect: i.group !== 'menu_dljg' }));
+const handlePermissions = (arr = []) => arr.map((i) => ({ ...i, isSelect: i.group !== 'menu_dljg' && i.name !== '业务报告导出' }));
 
 const getCheckedList = (permissions = []) => {
   let list = [];

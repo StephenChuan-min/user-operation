@@ -17,7 +17,6 @@ export default {
   color: #20242e;
   height: 100vh;
 }
-
 .yc-newpage-contaner {
   background-color: #edeff3;
   min-height: 100%;

@@ -33,6 +33,9 @@ const CommonApi = {
 
   // 结构化校验
   assetDetail: (auctionId) => axios.get(`/api/user/audit/assetDetail?auctionId=${auctionId}`),
+
+  // 结构化校验  确认
+  confirm: (id) => axios.get(`/api/user/audit/confirm?auctionId=${id}`),
 };
 
 export default CommonApi;

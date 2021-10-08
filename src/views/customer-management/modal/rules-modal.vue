@@ -144,7 +144,7 @@
               v-model="rulesForm[item.num]"
               autocomplete="off"
               :min="rulesForm[item.limit] || 0"
-              :max="9999999999"
+              :max="999999999"
               style="width: 216px"
             />
           </el-form-item>

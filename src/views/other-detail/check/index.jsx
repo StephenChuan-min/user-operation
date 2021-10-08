@@ -105,6 +105,21 @@ export default defineComponent({
       const text = isBack ? remark : '';
       state.value = value || text;
     };
+    const handleConfirm = () => {
+      const { params: { auctionId } } = proxy.$route;
+      CommonApi.confirm(auctionId).then((res) => {
+        const { code, message } = res.data || {};
+        if (code === 200) {
+          proxy.$message.success({
+            message: '操作成功',
+            duration: 1000,
+            onClose: () => window.close(),
+          });
+        } else {
+          proxy.$message.error(message);
+        }
+      });
+    };
     onMounted(() => {
       const { params: { auctionId } } = proxy.$route;
       CommonApi.assetDetail(auctionId).then((res) => {
@@ -119,12 +134,12 @@ export default defineComponent({
       });
     });
     return {
-      state, modalSlots, params, handleOpen,
+      state, modalSlots, params, handleOpen, handleConfirm,
     };
   },
   render() {
     const {
-      modalSlots, state, params, handleOpen,
+      modalSlots, state, params, handleOpen, handleConfirm,
     } = this;
     const { obligors, isBack } = state.assetDetail;
     const partDatas = handlePart(toRaw(state.assetDetail));
@@ -135,6 +150,7 @@ export default defineComponent({
           <div className="main-content">
             <div className="main-content-top">
               <el-button type="primary" class="button-first action-button" onClick ={handleOpen}>{Number(isBack) ? '再次退回' : '退回'}</el-button>
+              <el-button class="btn-fourth action-button" onClick={handleConfirm}>确认并关闭</el-button>
               {partDatas.map((i) => <Part {...i}/>)}
             </div>
             <div className="main-content-btm">
